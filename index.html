@@ -11,7 +11,7 @@
     ></script>
     <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
-  <body>
+  <body id="homepage">
     <div class="container">
       <nav class="nav-bar homepage" data-nav-bar>
         <div class="nav nav-horizontal">
@@ -55,38 +55,12 @@
         </div>
       </nav>
       <main>
-        <div class="shopping-cart">
-          <div class="shopping-cart-items-container">
-            <div class="shopping-cart-item-container">
-              <img src="images/vase-set.jpg" alt="" />
-              <div class="shopping-cart-item-info">
-                <div class="shopping-cart-item-name">vase</div>
-                <div class="shopping-cart-item-remove">remove</div>
-              </div>
-              <div class="shopping-cart-item-quantity-container">
-                <i class="fa-solid fa-minus"></i>
-                <div class="shopping-cart-item-quantity-amount">1</div>
-                <i class="fa-solid fa-plus"></i>
-              </div>
-              <div class="sub-total">$20.00</div>
-            </div>
-            <div class="shopping-cart-item-container">
-              <img src="images/vase-set.jpg" alt="" />
-              <div class="shopping-cart-item-info">
-                <div class="shopping-cart-item-name">floor lamp</div>
-                <div class="shopping-cart-item-remove">remove</div>
-              </div>
-              <div class="shopping-cart-item-quantity-container">
-                <i class="fa-solid fa-minus"></i>
-                <div class="shopping-cart-item-quantity-amount">1</div>
-                <i class="fa-solid fa-plus"></i>
-              </div>
-              <div class="sub-total">$20.00</div>
-            </div>
+        <div class="shopping-cart" data-shopping-cart-page>
+          <div class="shopping-cart-items-container" data-shopping-cart-items-container>
           </div>
           <div class="shopping-cart-total-container">
             <div class="total-title">total</div>
-            <div class="total-amount">$100.00</div>
+            <div class="total-amount" data-total-cart-amount>$100.00</div>
           </div>
           <div class="checkout-btn">checkout</div>
         </div>
@@ -102,7 +76,7 @@
         </div>
         <div class="new-arrivals-section">
           <h3 class="new-arrivals-title">new arrivals</h3>
-          <div class="new-arrivals-container">
+          <div class="new-arrivals-container" data-new-arrivals-container>
             
             <div class="new-arrival product">
               <div class="new-arrival product-image">
@@ -224,5 +198,5 @@
       </footer>
     </div>
   </body>
-  <script src="scripts.js" async></script>
+  <script src="app.js"></script>
 </html>

@@ -93,7 +93,9 @@ shoppingCartPage.addEventListener('click', (e) => {
 
   if (e.target.hasAttribute('data-remove-cart-item')) {
     const selectedItemId = e.target.parentElement.parentElement.dataset.id
-    shoppingCartList = shoppingCartList.filter(item => item.id!==Number(selectedItemId))
+    shoppingCartList = shoppingCartList.filter(
+      (item) => item.id !== Number(selectedItemId)
+    )
     renderShoppingCart()
     return
   }
@@ -254,3 +256,4 @@ function updateTotalAmount() {
     shoppingCartTotalAmount.innerText = cartTotalAmount
   }
 }
+
