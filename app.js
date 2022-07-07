@@ -36,7 +36,6 @@ const masterProductList = [
   }
 ]
 
-
 // homepage
 const navBar = document.querySelector('[data-nav-bar]')
 const newArrivalsContainer = document.querySelector(
@@ -44,6 +43,7 @@ const newArrivalsContainer = document.querySelector(
 )
 
 // shop page
+const searchBtn = document.querySelector('[data-search-btn]')
 const searchInput = document.querySelector('[data-search-products]')
 const searchInputClear = document.querySelector('[data-clear-search]')
 const categoryBtnsContainer = document.querySelector('[data-category-list]')
@@ -58,7 +58,10 @@ const shoppingCartTotalAmount = document.querySelector(
   '[data-total-cart-amount]'
 )
 
-let shoppingCartList = []
+const LOCAL_STORAGE_SHOPPING_CART_LIST = 'mf-shopping-cart-list'
+
+let shoppingCartList =
+  JSON.parse(localStorage.getItem(LOCAL_STORAGE_SHOPPING_CART_LIST)) || []
 
 const app = {
   init: () => {
@@ -75,6 +78,7 @@ const app = {
             navBar.classList.remove('white-background')
           }
         }
+        app.renderShoppingCart()
         app.renderNewArrivals()
         shoppingCartBtn.addEventListener('click', app.toggleShoppingCart)
         shoppingCartPage.addEventListener('click', (e) => {
@@ -94,7 +98,21 @@ const app = {
         break
       case 'shop-page':
         app.loadShopPage()
+        app.renderShoppingCart()
 
+        if (window.location.hash) {
+          if (window.location.hash === '#search') app.showSearchSection()
+          else {
+            const selectedCategory = window.location.hash
+              .slice(1)
+              .replace(/%20/g, ' ')
+            app.renderSelectedCategory(selectedCategory)
+            app.toggleSelectedCategoryBtn(selectedCategory)
+          }
+          // remove the hash in the url
+          history.replaceState(null, null, ' ')
+        }
+        searchBtn.addEventListener('click', app.showSearchSection)
         searchInput.addEventListener('keyup', (e) => {
           e.preventDefault()
           app.showSearchResult(e)
@@ -102,6 +120,7 @@ const app = {
         searchInputClear.addEventListener('click', () => {
           app.loadShopPage()
           searchInput.classList.remove('active')
+          searchInput.focus()
         })
         shoppingCartBtn.addEventListener('click', app.toggleShoppingCart)
         shoppingCartPage.addEventListener('click', (e) => {
@@ -118,7 +137,13 @@ const app = {
             shoppingCartPage.classList.add('show')
           }
         })
-        categoryBtnsContainer.addEventListener('click', app.selectCategory)
+        categoryBtnsContainer.addEventListener('click', (e) => {
+          const isCategoryBtn = e.target.hasAttribute('data-category')
+          if (!isCategoryBtn) return
+          const selectedCategory = e.target.dataset.category
+          app.renderSelectedCategory(selectedCategory)
+          app.toggleSelectedCategoryBtn(selectedCategory)
+        })
         break
     }
   },
@@ -166,6 +191,15 @@ const app = {
     })
     productsContainer.innerHTML = html.join('')
   },
+  showSearchSection: () => {
+    searchInput.focus()
+    productsContainer.innerHTML = '<div>Search for products</div>'
+    const selectedCategory = document.querySelector('.active[data-category]')
+
+    if (selectedCategory) {
+      selectedCategory.classList.remove('active')
+    }
+  },
   showSearchResult: (e) => {
     const searchPhase = e.target.value
 
@@ -190,6 +224,11 @@ const app = {
   },
   toggleShoppingCart: () => {
     shoppingCartPage.classList.toggle('show')
+    const isNavBarWhiteBackground =
+      navBar.classList.contains('white-background')
+    if (!isNavBarWhiteBackground) {
+      navBar.classList.add('white-background')
+    }
   },
   addItemToCart: (id) => {
     const inCartAlready = shoppingCartList.find(
@@ -205,6 +244,7 @@ const app = {
       newItem.quantity = 1
       shoppingCartList.push(newItem)
     }
+    app.save()
     app.renderShoppingCart()
   },
   editQuantity: (e) => {
@@ -220,6 +260,7 @@ const app = {
     selectedItem.quantity = Function(
       `return ${selectedItem.quantity + e.target.dataset.editQuantity}`
     )()
+    app.save()
     app.renderShoppingCart()
   },
   removeCartItem: (e) => {
@@ -227,6 +268,7 @@ const app = {
     shoppingCartList = shoppingCartList.filter(
       (item) => item.id !== Number(selectedItemId)
     )
+    app.save()
     app.renderShoppingCart()
   },
   renderShoppingCart: () => {
@@ -278,31 +320,38 @@ const app = {
       shoppingCartTotalAmount.innerText = cartTotalAmount
     }
   },
-  selectCategory: (e) => {
-    const isCategoryBtn = e.target.hasAttribute('data-category')
-    if (!isCategoryBtn) return
-
-    const selectedCategory = e.target.dataset.category
-
-    if (selectedCategory === 'view all') {
+  renderSelectedCategory: (categoryName) => {
+    if (categoryName === 'view all') {
       app.renderProductList(masterProductList)
     } else {
       const filteredProductList = masterProductList.filter((product) => {
-        return product.category.includes(selectedCategory)
+        return product.category.includes(categoryName)
       })
       app.renderProductList(filteredProductList)
     }
-
-    const isActive = e.target.classList.contains('active')
-
-    if (!isActive) {
-      const previousSelectedCategory = document.querySelector(
-        '.active[data-category]'
-      )
-
+  },
+  toggleSelectedCategoryBtn: (categoryName) => {
+    const targetCategoryBtn = document.querySelector(
+      `[data-category="${categoryName}"]`
+    )
+    const isPreviousSelectedCategory =
+      targetCategoryBtn.classList.contains('active')
+    const previousSelectedCategory = document.querySelector(
+      '.active[data-category]'
+    )
+    if (isPreviousSelectedCategory) return
+    else if (previousSelectedCategory) {
       previousSelectedCategory.classList.remove('active')
-      e.target.classList.add('active')
+      targetCategoryBtn.classList.add('active')
+    } else {
+      targetCategoryBtn.classList.add('active')
     }
+  },
+  save: () => {
+    localStorage.setItem(
+      LOCAL_STORAGE_SHOPPING_CART_LIST,
+      JSON.stringify(shoppingCartList)
+    )
   }
 }
 
