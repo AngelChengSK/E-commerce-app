@@ -29,10 +29,10 @@
           <ul class="nav-items right">
             <li>search</li>
             <li><a href="#"></a>sign in</li>
-            <li>bag(0)</li>
+            <li class="shopping-cart-btn text" data-shopping-cart-btn>cart(0)</li>
           </ul>
-          <button class="shopping-bag-btn">
-            <img src="images/shopping-bag.png" alt="shopping bag" />
+          <button class="shopping-cart-btn icon" data-shopping-cart-btn>
+            <i class="fa-solid fa-cart-shopping"></i>
           </button>
         </div>
         <div class="nav nav-vertical">
@@ -55,111 +55,37 @@
         </div>
       </nav>
       <main class="shop-page">
-        <div class="shopping-bag">
-          <div class="shopping-bag-items-container">
-            <div class="shopping-bag-item-container">
-              <img src="images/vase-set.jpg" alt="" />
-              <div class="shopping-bag-item-info">
-                <div class="shopping-bag-item-name">vase</div>
-                <div class="shopping-bag-item-remove">remove</div>
-              </div>
-              <div class="shopping-bag-item-quantity-container">
-                <i class="fa-solid fa-minus"></i>
-                <div class="shopping-bag-item-quantity-amount">1</div>
-                <i class="fa-solid fa-plus"></i>
-              </div>
-              <div class="sub-total">$20.00</div>
-            </div>
-            <div class="shopping-bag-item-container">
-              <img src="images/vase-set.jpg" alt="" />
-              <div class="shopping-bag-item-info">
-                <div class="shopping-bag-item-name">floor lamp</div>
-                <div class="shopping-bag-item-remove">remove</div>
-              </div>
-              <div class="shopping-bag-item-quantity-container">
-                <i class="fa-solid fa-minus"></i>
-                <div class="shopping-bag-item-quantity-amount">1</div>
-                <i class="fa-solid fa-plus"></i>
-              </div>
-              <div class="sub-total">$20.00</div>
-            </div>
+        <div class="shopping-cart" data-shopping-cart-page>
+          <div class="shopping-cart-items-container" data-shopping-cart-items-container>
           </div>
-          <div class="shopping-bag-total-container">
+          <div class="shopping-cart-total-container">
             <div class="total-title">total</div>
-            <div class="total-amount">$100.00</div>
+            <div class="total-amount" data-total-cart-amount>$0.00</div>
           </div>
           <div class="checkout-btn">checkout</div>
         </div>
         <aside class="sidebar">
-          <!-- <div class="categories-title">categories</div> -->
           <form>
             <input
               class="search-products"
               type="text"
               placeholder="search products"
+              maxlength="10"
+              data-search-products
             />
+            <i class="fa-solid fa-xmark" data-clear-search></i>
           </form>
-          <ul class="category-list">
-            <li>view all</li>
-            <li>new arrivals</li>
-            <li>sofas</li>
-            <li>chairs</li>
-            <li>lighting</li>
-            <li>mirror</li>
-            <li>home decor</li>
+          <ul class="category-list" data-category-list>
+            <li data-category = "view all">view all</li>
+            <li data-category = "new arrivals">new arrivals</li>
+            <li data-category = "sofas">sofas</li>
+            <li data-category = "chairs">chairs</li>
+            <li data-category = "lighting">lighting</li>
+            <li data-category = "mirror">mirror</li>
+            <li data-category = "home decor">home decor</li>
           </ul>
         </aside>
-        <div class="products-container">
-          <div class="product-list product">
-            <div class="product-list product-image">
-              <img src="images/vase-set.jpg" alt="" />
-              <i class="fa-solid fa-cart-plus"></i>
-            </div>
-            <div class="product-list product-info">
-              <div class="product-name">vase set</div>
-              <div class="product-price">$14.99</div>
-            </div>
-          </div>
-          <div class="product-list product">
-            <div class="product-list product-image">
-              <img src="images/vase-set.jpg" alt="" />
-              <i class="fa-solid fa-cart-plus"></i>
-            </div>
-            <div class="product-list product-info">
-              <div class="product-name">vase set</div>
-              <div class="product-price">$14.99</div>
-            </div>
-          </div>
-          <div class="product-list product">
-            <div class="product-list product-image">
-              <img src="images/vase-set.jpg" alt="" />
-              <i class="fa-solid fa-cart-plus"></i>
-            </div>
-            <div class="product-list product-info">
-              <div class="product-name">vase set</div>
-              <div class="product-price">$14.99</div>
-            </div>
-          </div>
-          <div class="product-list product">
-            <div class="product-list product-image">
-              <img src="images/vase-set.jpg" alt="" />
-              <i class="fa-solid fa-cart-plus"></i>
-            </div>
-            <div class="product-list product-info">
-              <div class="product-name">vase set</div>
-              <div class="product-price">$14.99</div>
-            </div>
-          </div>
-          <div class="product-list product">
-            <div class="product-list product-image">
-              <img src="images/vase-set.jpg" alt="" />
-              <i class="fa-solid fa-cart-plus"></i>
-            </div>
-            <div class="product-list product-info">
-              <div class="product-name">vase set</div>
-              <div class="product-price">$14.99</div>
-            </div>
-          </div>
+        <div class="products-container" data-products-container>
         </div>
       </main>
       <footer>
@@ -191,5 +117,5 @@
       </footer>
     </div>
   </body>
-  <script src="scripts.js"></script>
+  <script src="scripts.js" async></script>
 </html>
