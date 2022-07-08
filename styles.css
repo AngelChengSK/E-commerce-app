@@ -314,7 +314,7 @@ footer {
 .footer-container {
   max-width: 1100px;
   width: 95%;
-  padding: 50px 0 70px;
+  padding: 40px 0;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -332,7 +332,7 @@ footer {
 
 .footer-title {
   font-weight: bold;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .footer-list-container > li {
@@ -437,7 +437,7 @@ footer {
   margin: 0 auto;
 }
 
-.new-arrivals-title-row{
+.new-arrivals-title-row {
   display: flex;
   justify-content: space-between;
 }
@@ -446,15 +446,15 @@ footer {
   padding-bottom: 40px;
 }
 
-.new-arrivals-view-all{
+.new-arrivals-view-all {
   font-weight: 300;
   opacity: 0.6;
   cursor: pointer;
 }
 
-.new-arrivals-view-all:hover{
+.new-arrivals-view-all:hover {
   opacity: 1;
-  color: black;
+  /* color: black; */
   /* font-weight: 400; */
 }
 
@@ -481,37 +481,53 @@ footer {
   cursor: pointer;
 }
 
-.product-image:hover > img {
-  filter: brightness(0.8);
-}
-
 .product-image > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.fa-cart-plus {
+.product-image:hover > img {
+  filter: brightness(0.8);
+}
+
+.add-item-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.fa-cart-plus,
+.quantity-in-cart {
   width: 45px;
   height: 45px;
   background-color: white;
   border-radius: 50%;
   font-size: 22px;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  display: none;
-}
-
-.product-image:hover > .fa-cart-plus {
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 0 5px 0 grey;
 }
 
-.fa-cart-plus:hover {
+.fa-cart-plus{
+  display: none;
+}
+
+.product-image:hover > .add-item-btn > .fa-cart-plus{
+  display: flex;
+}
+
+.product-image:hover > .add-item-btn > .fa-cart-plus,
+.product-image:hover > .add-item-btn > .quantity-in-cart{
+  box-shadow: none;
+}
+
+.fa-cart-plus:hover,
+.quantity-in-cart:hover {
   background-color: rgba(0, 0, 0, 0.67);
   color: white;
+  box-shadow: none;
 }
 
 .product-info {
@@ -560,6 +576,7 @@ footer {
 .our-story {
   cursor: pointer;
   position: relative;
+  opacity: 0.7;
   /* border: 1px solid red; */
   padding-bottom: 5px;
   border-bottom: 2px solid var(--font-dark-grey);
@@ -568,6 +585,7 @@ footer {
 .our-story:hover {
   color: black;
   border-color: black;
+  opacity: 1;
 }
 
 /* =================
@@ -785,6 +803,18 @@ main.shop-page {
   column-gap: 30px;
   row-gap: 50px;
   /* border: 1px solid red; */
+}
+
+.search-notice {
+  width: 500px;
+  font-size: 22px;
+}
+
+.search-no-results-advice {
+  font-weight: 300;
+  font-size: 17px;
+  padding-top: 15px;
+  opacity: 0.8;
 }
 
 .product-list.product {

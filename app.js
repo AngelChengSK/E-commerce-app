@@ -36,13 +36,13 @@ const masterProductList = [
   }
 ]
 
-// homepage
+// homepage elements
 const navBar = document.querySelector('[data-nav-bar]')
 const newArrivalsContainer = document.querySelector(
   '[data-new-arrivals-container]'
 )
 
-// shop page
+// shop page elements
 const searchBtn = document.querySelector('[data-search-btn]')
 const searchInput = document.querySelector('[data-search-products]')
 const searchInputClear = document.querySelector('[data-clear-search]')
@@ -71,6 +71,8 @@ const app = {
     let page = document.body.id
     switch (page) {
       case 'homepage':
+        app.loadHomepage()
+
         window.onscroll = () => {
           if (window.pageYOffset > 0) {
             navBar.classList.add('white-background')
@@ -78,8 +80,15 @@ const app = {
             navBar.classList.remove('white-background')
           }
         }
-        app.renderShoppingCart()
-        app.renderNewArrivals()
+
+        document.addEventListener('click', (e) => {
+          if (
+            e.target.closest('[data-homepage]') ||
+            e.target.closest('footer')
+          ) {
+            shoppingCartPage.classList.remove('show')
+          }
+        })
         shoppingCartBtn.addEventListener('click', app.toggleShoppingCart)
         shoppingCartPage.addEventListener('click', (e) => {
           if (e.target.hasAttribute('data-edit-quantity')) {
@@ -92,13 +101,13 @@ const app = {
         newArrivalsContainer.addEventListener('click', (e) => {
           if (e.target.hasAttribute('data-add-to-cart-btn')) {
             app.addItemToCart(e.target.parentElement.parentElement.dataset.id)
+
             shoppingCartPage.classList.add('show')
           }
         })
         break
       case 'shop-page':
         app.loadShopPage()
-        app.renderShoppingCart()
 
         if (window.location.hash) {
           if (window.location.hash === '#search') app.showSearchSection()
@@ -109,14 +118,19 @@ const app = {
             app.renderSelectedCategory(selectedCategory)
             app.toggleSelectedCategoryBtn(selectedCategory)
           }
-          // remove the hash in the url
+          // remove hash and everything after the hash from the web page url
           history.replaceState(null, null, ' ')
         }
-        searchBtn.addEventListener('click', app.showSearchSection)
-        searchInput.addEventListener('keyup', (e) => {
-          e.preventDefault()
-          app.showSearchResult(e)
+        document.addEventListener('click', (e) => {
+          if (
+            e.target.closest('[data-shop-page]') ||
+            e.target.closest('footer')
+          ) {
+            shoppingCartPage.classList.remove('show')
+          }
         })
+        searchBtn.addEventListener('click', app.showSearchSection)
+        searchInput.addEventListener('keyup', app.showSearchResult)
         searchInputClear.addEventListener('click', () => {
           app.loadShopPage()
           searchInput.classList.remove('active')
@@ -133,7 +147,8 @@ const app = {
         })
         productsContainer.addEventListener('click', (e) => {
           if (e.target.hasAttribute('data-add-to-cart-btn')) {
-            app.addItemToCart(e.target.parentElement.dataset.id)
+            app.addItemToCart(e.target.parentElement.parentElement.dataset.id)
+            app.changeAddToCartBtn(e)
             shoppingCartPage.classList.add('show')
           }
         })
@@ -143,6 +158,11 @@ const app = {
           const selectedCategory = e.target.dataset.category
           app.renderSelectedCategory(selectedCategory)
           app.toggleSelectedCategoryBtn(selectedCategory)
+
+          if (searchInput.value) {
+            searchInput.classList.remove('active')
+            searchInput.value = ''
+          }
         })
         break
     }
@@ -154,46 +174,58 @@ const app = {
     const html = newArrivalList
       .map((newArrival) => {
         return `
-            <div class="new-arrival product" data-id=${newArrival.id}>
-              <div class="new-arrival product-image">
-                <img src="${newArrival.img}" alt="${newArrival.name}" />
-                <i class="fa-solid fa-cart-plus" data-add-to-cart-btn></i>
-              </div>
-              <div class="new-arrival product-info">
-                <div class="new-arrival product-name">${newArrival.name} set</div>
-                <div class="new-arrival product-price">${newArrival.price}</div>
-              </div>
-            </div>
-      `
+        <div class="new-arrival product" data-id=${newArrival.id}>
+          <div class="new-arrival product-image">
+            <img src="${newArrival.img}" alt="${newArrival.name}" />
+            <i class="fa-solid fa-cart-plus" data-add-to-cart-btn></i>
+          </div>
+          <div class="new-arrival product-info">
+            <div class="new-arrival product-name">${newArrival.name} set</div>
+            <div class="new-arrival product-price">${newArrival.price}</div>
+          </div>
+        </div>
+        `
       })
       .join('')
     newArrivalsContainer.innerHTML = html
   },
+  loadHomepage: () => {
+    app.renderShoppingCart()
+    app.renderNewArrivals()
+  },
   loadShopPage: () => {
     app.renderProductList(masterProductList)
+    app.renderShoppingCart()
     viewAllBtn.classList.add('active')
     searchInput.value = ''
   },
   renderProductList: (productList) => {
     let html = productList.map((product) => {
       return `
-            <div class="product-list product">
-              <div class="product-list product-image" data-id="${product.id}">
-                <img src=${product.img} alt=${product.name} />
-                <i class="fa-solid fa-cart-plus" data-add-to-cart-btn></i>
-              </div>
-              <div class="product-list product-info">
-                <div class="product-name">${product.name}</div>
-                <div class="product-price">${product.price}</div>
-              </div>
-            </div>
+      <div class="product-list product">
+        <div class="product-list product-image" data-id="${product.id}">
+          <img src=${product.img} alt=${product.name} />
+          <div class="add-item-btn">
+            <i class="fa-solid fa-cart-plus" data-add-to-cart-btn></i>
+          </div>
+        </div>
+        <div class="product-list product-info">
+          <div class="product-name">${product.name}</div>
+          <div class="product-price">${product.price}</div>
+        </div>
+      </div>
       `
     })
     productsContainer.innerHTML = html.join('')
   },
   showSearchSection: () => {
     searchInput.focus()
-    productsContainer.innerHTML = '<div>Search for products</div>'
+    productsContainer.innerHTML = `
+    <div class="search-notice">
+      <div>Search for products</div>
+    </div>
+    `
+
     const selectedCategory = document.querySelector('.active[data-category]')
 
     if (selectedCategory) {
@@ -203,7 +235,7 @@ const app = {
   showSearchResult: (e) => {
     const searchPhase = e.target.value
 
-    if (searchPhase == null || searchPhase == '') {
+    if (searchPhase === null || searchPhase === '') {
       app.renderProductList(masterProductList)
       searchInput.classList.remove('active')
       viewAllBtn.classList.add('active')
@@ -212,7 +244,17 @@ const app = {
         return product.name.includes(searchPhase.toLowerCase().trim())
       })
 
-      app.renderProductList(filteredProductList)
+      if (filteredProductList.length === 0) {
+        productsContainer.innerHTML = `
+        <div class="search-notice">
+          <div class="search-no-results">There are no results for "${searchPhase}"</div>
+          <div class="search-no-results-advice">Try again using a different spelling or keywords.</div>
+        </div>
+        `
+      } else {
+        app.renderProductList(filteredProductList)
+      }
+
       searchInput.classList.add('active')
 
       const selectedCategory = document.querySelector('.active[data-category]')
@@ -246,6 +288,20 @@ const app = {
     }
     app.save()
     app.renderShoppingCart()
+  },
+  changeAddToCartBtn: (e) => {
+    const productContainer = e.target.parentElement
+    const productId = e.target.parentElement.parentElement.dataset.id
+    const targetItem = shoppingCartList.find((item) => 
+      item.id === Number(productId)
+    )
+    // get string that is inside the container div: <div class="add-item-btn"></div>
+    let regex = /<[a-zA-Z]+ [a-zA-Z]+=".*">.*<\/[a-zA-Z]+>/i
+
+    productContainer.innerHTML = productContainer.innerHTML.replace(
+      regex,
+      `<div class="quantity-in-cart">${targetItem.quantity}</div>`
+    )
   },
   editQuantity: (e) => {
     const selectedItemId = e.target.parentElement.parentElement.dataset.id

@@ -40,9 +40,9 @@
             <i class="fa-solid fa-xl fa-xmark"></i>
           </button>
           <ul>
-            <form>
+            <!-- <form> -->
               <input class="search-input" type="text" placeholder="search" />
-            </form>
+            <!-- </form> -->
             <li class="nav-shop">
               <a href="shop.html"></a>shop<i
                 class="fa-solid fa-sm fa-angle-right"
@@ -54,18 +54,19 @@
           </ul>
         </div>
       </nav>
-      <main class="shop-page">
-        <div class="shopping-cart" data-shopping-cart-page>
-          <div class="shopping-cart-items-container" data-shopping-cart-items-container>
-          </div>
-          <div class="shopping-cart-total-container">
-            <div class="total-title">total</div>
-            <div class="total-amount" data-total-cart-amount>$0.00</div>
-          </div>
-          <div class="checkout-btn">checkout</div>
+      <div class="shopping-cart" data-shopping-cart-page>
+        <div class="shopping-cart-items-container" data-shopping-cart-items-container>
         </div>
+        <div class="shopping-cart-total-container">
+          <div class="total-title">total</div>
+          <div class="total-amount" data-total-cart-amount>$0.00</div>
+        </div>
+        <div class="checkout-btn">checkout</div>
+      </div>
+      <main class="shop-page" data-shop-page>
+        
         <aside class="sidebar">
-          <form>
+          <!-- <form data-search-form> -->
             <input
               class="search-products"
               type="text"
@@ -74,7 +75,7 @@
               data-search-products
             />
             <i class="fa-solid fa-xmark" data-clear-search></i>
-          </form>
+          <!-- </form> -->
           <ul class="category-list" data-category-list>
             <li data-category = "view all">view all</li>
             <li data-category = "new arrivals">new arrivals</li>
