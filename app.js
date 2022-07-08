@@ -49,6 +49,7 @@ const searchInputClear = document.querySelector('[data-clear-search]')
 const categoryBtnsContainer = document.querySelector('[data-category-list]')
 const viewAllBtn = document.querySelector('[data-category="view all"]')
 const productsContainer = document.querySelector('[data-products-container]')
+
 const shoppingCartBtn = document.querySelector('[data-shopping-cart-btn]')
 const shoppingCartPage = document.querySelector('[data-shopping-cart-page]')
 const shoppingCartItemsContainer = document.querySelector(
@@ -100,9 +101,8 @@ const app = {
         })
         newArrivalsContainer.addEventListener('click', (e) => {
           if (e.target.hasAttribute('data-add-to-cart-btn')) {
-            app.addItemToCart(e.target.parentElement.parentElement.dataset.id)
-
-            shoppingCartPage.classList.add('show')
+            app.addItemToCart(e.target.parentElement.parentElement.parentElement.dataset.id)
+            app.updateQuantityInCartIcon()
           }
         })
         break
@@ -148,8 +148,7 @@ const app = {
         productsContainer.addEventListener('click', (e) => {
           if (e.target.hasAttribute('data-add-to-cart-btn')) {
             app.addItemToCart(e.target.parentElement.parentElement.dataset.id)
-            app.changeAddToCartBtn(e)
-            shoppingCartPage.classList.add('show')
+            app.updateQuantityInCartIcon()
           }
         })
         categoryBtnsContainer.addEventListener('click', (e) => {
@@ -177,7 +176,10 @@ const app = {
         <div class="new-arrival product" data-id=${newArrival.id}>
           <div class="new-arrival product-image">
             <img src="${newArrival.img}" alt="${newArrival.name}" />
-            <i class="fa-solid fa-cart-plus" data-add-to-cart-btn></i>
+            <div class="add-product-btn-container">
+              <i class="fa-solid fa-cart-plus" data-add-to-cart-btn></i>
+              <div class="quantity-in-cart" data-quantity-in-cart-icon></div>
+            </div>
           </div>
           <div class="new-arrival product-info">
             <div class="new-arrival product-name">${newArrival.name} set</div>
@@ -188,6 +190,7 @@ const app = {
       })
       .join('')
     newArrivalsContainer.innerHTML = html
+    app.updateQuantityInCartIcon()
   },
   loadHomepage: () => {
     app.renderShoppingCart()
@@ -205,8 +208,9 @@ const app = {
       <div class="product-list product">
         <div class="product-list product-image" data-id="${product.id}">
           <img src=${product.img} alt=${product.name} />
-          <div class="add-item-btn">
+          <div class="add-product-btn-container">
             <i class="fa-solid fa-cart-plus" data-add-to-cart-btn></i>
+            <div class="quantity-in-cart" data-quantity-in-cart-icon></div>
           </div>
         </div>
         <div class="product-list product-info">
@@ -217,6 +221,7 @@ const app = {
       `
     })
     productsContainer.innerHTML = html.join('')
+    app.updateQuantityInCartIcon()
   },
   showSearchSection: () => {
     searchInput.focus()
@@ -289,19 +294,27 @@ const app = {
     app.save()
     app.renderShoppingCart()
   },
-  changeAddToCartBtn: (e) => {
-    const productContainer = e.target.parentElement
-    const productId = e.target.parentElement.parentElement.dataset.id
-    const targetItem = shoppingCartList.find((item) => 
-      item.id === Number(productId)
+  updateQuantityInCartIcon: () => {
+    const quantityInCartIcons = document.querySelectorAll(
+      '[data-quantity-in-cart-icon]'
     )
-    // get string that is inside the container div: <div class="add-item-btn"></div>
-    let regex = /<[a-zA-Z]+ [a-zA-Z]+=".*">.*<\/[a-zA-Z]+>/i
+    const shoppingCartProductIDs = shoppingCartList.map(item=> item.id.toString())
 
-    productContainer.innerHTML = productContainer.innerHTML.replace(
-      regex,
-      `<div class="quantity-in-cart">${targetItem.quantity}</div>`
-    )
+    quantityInCartIcons.forEach((icon) => {
+      const productId = icon.closest('[data-id]').dataset.id
+
+      if (shoppingCartProductIDs.includes(productId)) {
+        const product = shoppingCartList.find(
+          (item) => item.id == productId
+        )
+        
+        icon.innerText = product.quantity
+        icon.classList.add('show')
+      } else {
+        icon.innerText = 0
+        icon.classList.remove('show')
+      }
+    })
   },
   editQuantity: (e) => {
     const selectedItemId = e.target.parentElement.parentElement.dataset.id
@@ -318,6 +331,7 @@ const app = {
     )()
     app.save()
     app.renderShoppingCart()
+    app.updateQuantityInCartIcon()
   },
   removeCartItem: (e) => {
     const selectedItemId = e.target.parentElement.parentElement.dataset.id
@@ -326,6 +340,7 @@ const app = {
     )
     app.save()
     app.renderShoppingCart()
+    app.updateQuantityInCartIcon()
   },
   renderShoppingCart: () => {
     app.renderCartItem()
