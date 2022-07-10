@@ -510,7 +510,7 @@ footer {
 
 .fa-cart-plus {
   background-color: white;
-  color:rgba(0, 0, 0, 0.67);
+  color: rgba(0, 0, 0, 0.67);
   cursor: pointer;
   display: none;
 }
@@ -625,7 +625,7 @@ footer {
 .all-collections-container {
   width: 100%;
   display: grid;
-  grid-template-columns: 340px 120px 230px 1fr;
+  grid-template-columns: minmax(280px, 340px) minmax(90px, 120px) minmax(200px, 230px) minmax(200px, 250px);
   grid-template-rows: 170px 270px;
   gap: 20px;
   /* border: 1px solid red; */
@@ -688,7 +688,7 @@ footer {
 
 .collection-name.chairs {
   top: 40px;
-  left: 200px;
+  right: 80px;
 }
 
 .collection-name.sofas {
@@ -697,7 +697,7 @@ footer {
 }
 
 .collection-name.decor {
-  top: 60px;
+  top: 30px;
   left: 30px;
 }
 
@@ -855,4 +855,19 @@ main.shop-page {
 .product-list.product-info {
   padding-top: 15px;
   /* border: 1px solid red; */
+}
+
+/* =================
+    media queries
+   ================= */
+@media all and (max-width: 950px) {
+  .nav-items.left,
+  .nav-items.right {
+    display: none;
+  }
+
+  .nav-menu-icon,
+  .shopping-cart-btn.icon {
+    display: block;
+  }
 }

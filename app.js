@@ -3,36 +3,134 @@ const masterProductList = [
     id: 1,
     name: 'vase set',
     category: 'home decor, new arrivals',
-    price: 15.99,
+    price: 25.99,
     img: 'images/vase-set.jpg'
   },
   {
     id: 2,
     name: 'floor lamp',
-    category: 'lighting, new arrivals',
-    price: 15.99,
+    category: 'lighting',
+    price: 95.99,
     img: 'images/floor-lamp.jpeg'
   },
   {
     id: 3,
-    name: 'brown sofa',
-    category: 'sofas',
-    price: 15.99,
-    img: 'images/sofa-brown.jpg'
+    name: 'blue chair',
+    category: 'chairs',
+    price: 85.99,
+    img: 'images/blue-chair.jpeg'
   },
   {
     id: 4,
     name: 'green sofa',
     category: 'sofas',
-    price: 15.99,
-    img: 'images/sofa-green.jpg'
+    price: 899,
+    img: 'images/sofa-green.jpeg'
   },
   {
     id: 5,
-    name: 'round mirror',
+    name: 'round mirror - large',
     category: 'mirror',
+    price: 65.99,
+    img: 'images/round-mirror-large.jpeg'
+  },
+  {
+    id: 6,
+    name: 'armchair',
+    category: 'chairs',
+    price: 115,
+    img: 'images/armchair.jpeg'
+  },
+  {
+    id: 7,
+    name: 'white chair',
+    category: 'chairs, new arrivals',
+    price: 95.99,
+    img: 'images/white-chair.jpeg'
+  },
+  {
+    id: 8,
+    name: 'round mirror - small',
+    category: 'mirror',
+    price: 45.99,
+    img: 'images/round-mirror-small.jpg'
+  },
+  {
+    id: 9,
+    name: 'light bulb',
+    category: 'lighting',
+    price: 55,
+    img: 'images/light-bulb.jpeg'
+  },
+  {
+    id: 10,
+    name: 'black chair',
+    category: 'chairs',
+    price: 125,
+    img: 'images/black-chair.jpg'
+  },
+  {
+    id: 11,
+    name: 'ceiling lamp',
+    category: 'lighting',
+    price: 109,
+    img: 'images/ceiling-lamp.jpg'
+  },
+  {
+    id: 12,
+    name: 'picture frame',
+    category: 'home decor, new arrivals',
+    price: 39,
+    img: 'images/picture-frame.jpeg'
+  },
+  {
+    id: 13,
+    name: 'vase',
+    category: 'home decor, new arrivals',
     price: 15.99,
-    img: 'images/round-mirror.jpg'
+    img: 'images/vase.jpg'
+  },
+  {
+    id: 14,
+    name: 'white vase',
+    category: 'home decor',
+    price: 29,
+    img: 'images/white-vase.jpeg'
+  },
+  {
+    id: 15,
+    name: 'yellow sofa chair',
+    category: 'sofas, chairs',
+    price: 211,
+    img: 'images/yellow-sofa.jpeg'
+  },
+  {
+    id: 16,
+    name: 'yellow chair',
+    category: 'chairs',
+    price: 79,
+    img: 'images/yellow-chair.jpg'
+  },
+  {
+    id: 17,
+    name: 'grey sofa chair',
+    category: 'sofas, chairs',
+    price: 379,
+    img: 'images/grey-sofa-chair.jpeg'
+  },
+  {
+    id: 18,
+    name: 'orange sofa',
+    category: 'sofas',
+    price: 799,
+    img: 'images/orange-sofa.jpeg'
+  },
+  {
+    id: 19,
+    name: 'pillow',
+    category: 'home decor',
+    price: 15.99,
+    img: 'images/pillow.jpeg'
   }
 ]
 
@@ -50,7 +148,7 @@ const categoryBtnsContainer = document.querySelector('[data-category-list]')
 const viewAllBtn = document.querySelector('[data-category="view all"]')
 const productsContainer = document.querySelector('[data-products-container]')
 
-const shoppingCartBtn = document.querySelector('[data-shopping-cart-btn]')
+const shoppingCartBtns = document.querySelectorAll('[data-shopping-cart-btn]')
 const shoppingCartPage = document.querySelector('[data-shopping-cart-page]')
 const shoppingCartItemsContainer = document.querySelector(
   '[data-shopping-cart-items-container]'
@@ -90,7 +188,9 @@ const app = {
             shoppingCartPage.classList.remove('show')
           }
         })
-        shoppingCartBtn.addEventListener('click', app.toggleShoppingCart)
+        shoppingCartBtns.forEach((btn) => {
+          btn.addEventListener('click', app.toggleShoppingCart)
+        })
         shoppingCartPage.addEventListener('click', (e) => {
           if (e.target.hasAttribute('data-edit-quantity')) {
             app.editQuantity(e)
@@ -101,7 +201,9 @@ const app = {
         })
         newArrivalsContainer.addEventListener('click', (e) => {
           if (e.target.hasAttribute('data-add-to-cart-btn')) {
-            app.addItemToCart(e.target.parentElement.parentElement.parentElement.dataset.id)
+            app.addItemToCart(
+              e.target.parentElement.parentElement.parentElement.dataset.id
+            )
             app.updateQuantityInCartIcon()
           }
         })
@@ -136,7 +238,9 @@ const app = {
           searchInput.classList.remove('active')
           searchInput.focus()
         })
-        shoppingCartBtn.addEventListener('click', app.toggleShoppingCart)
+        shoppingCartBtns.forEach((btn) => {
+          btn.addEventListener('click', app.toggleShoppingCart)
+        })
         shoppingCartPage.addEventListener('click', (e) => {
           if (e.target.hasAttribute('data-edit-quantity')) {
             app.editQuantity(e)
@@ -182,8 +286,8 @@ const app = {
             </div>
           </div>
           <div class="new-arrival product-info">
-            <div class="new-arrival product-name">${newArrival.name} set</div>
-            <div class="new-arrival product-price">${newArrival.price}</div>
+            <div class="new-arrival product-name">${newArrival.name}</div>
+            <div class="new-arrival product-price">$${newArrival.price}</div>
           </div>
         </div>
         `
@@ -215,7 +319,7 @@ const app = {
         </div>
         <div class="product-list product-info">
           <div class="product-name">${product.name}</div>
-          <div class="product-price">${product.price}</div>
+          <div class="product-price">$${product.price}</div>
         </div>
       </div>
       `
@@ -278,17 +382,14 @@ const app = {
     }
   },
   addItemToCart: (id) => {
-    const inCartAlready = shoppingCartList.find(
-      (cartItem) => cartItem.id === Number(id)
-    )
+    const inCartAlready = shoppingCartList.find((cartItem) => cartItem.id == id)
     if (inCartAlready) {
       inCartAlready.quantity += 1
     } else {
-      const selectedItem = masterProductList.find(
-        (product) => product.id === Number(id)
-      )
-      const newItem = selectedItem
-      newItem.quantity = 1
+      const newItem = {
+        id: id,
+        quantity: 1
+      }
       shoppingCartList.push(newItem)
     }
     app.save()
@@ -298,16 +399,16 @@ const app = {
     const quantityInCartIcons = document.querySelectorAll(
       '[data-quantity-in-cart-icon]'
     )
-    const shoppingCartProductIDs = shoppingCartList.map(item=> item.id.toString())
+    const shoppingCartProductIDs = shoppingCartList.map((item) =>
+      item.id.toString()
+    )
 
     quantityInCartIcons.forEach((icon) => {
       const productId = icon.closest('[data-id]').dataset.id
 
       if (shoppingCartProductIDs.includes(productId)) {
-        const product = shoppingCartList.find(
-          (item) => item.id == productId
-        )
-        
+        const product = shoppingCartList.find((item) => item.id == productId)
+
         icon.innerText = product.quantity
         icon.classList.add('show')
       } else {
@@ -336,8 +437,9 @@ const app = {
   removeCartItem: (e) => {
     const selectedItemId = e.target.parentElement.parentElement.dataset.id
     shoppingCartList = shoppingCartList.filter(
-      (item) => item.id !== Number(selectedItemId)
+      (item) => item.id !== selectedItemId
     )
+    console.log(shoppingCartList)
     app.save()
     app.renderShoppingCart()
     app.updateQuantityInCartIcon()
@@ -348,7 +450,13 @@ const app = {
     app.updateTotalAmount()
   },
   renderCartItem: () => {
-    const html = shoppingCartList.map((cartItem) => {
+    //use cartItem's id to retrieve latest product info from masterProductList
+    const listWithLastestProductInfo = shoppingCartList.map((cartItem) => ({
+      ...cartItem,
+      ...masterProductList.find(({id}) => id == cartItem.id)
+    }))
+
+    const html = listWithLastestProductInfo.map((cartItem) => {
       return `
       <div class="shopping-cart-item-container" data-id=${cartItem.id}>
         <img src="${cartItem.img}" alt="${cartItem.name}" />
@@ -361,7 +469,7 @@ const app = {
           <div class="shopping-cart-item-quantity-amount">${cartItem.quantity}</div>
           <i class="fa-solid fa-plus" data-edit-quantity="+1"></i>
         </div>
-        <div class="sub-total">${cartItem.price}</div>
+        <div class="sub-total">$${cartItem.price}</div>
       </div>
     `
     })
@@ -369,26 +477,31 @@ const app = {
   },
   updateCartItemNumber: () => {
     if (shoppingCartList.length === 0) {
-      shoppingCartBtn.innerText = `cart(0)`
+      shoppingCartBtns[0].innerText = `cart(0)`
     } else {
       const totalCartItem = shoppingCartList
         .map((item) => {
           return item.quantity
         })
         .reduce((sum, quantity) => sum + quantity)
-      shoppingCartBtn.innerText = `cart(${totalCartItem})`
+      shoppingCartBtns[0].innerText = `cart(${totalCartItem})`
     }
   },
   updateTotalAmount: () => {
     if (shoppingCartList.length === 0) {
       shoppingCartTotalAmount.innerText = '$0.00'
     } else {
-      const cartTotalAmount = shoppingCartList
+      const listWithLastestProductInfo = shoppingCartList.map((cartItem) => ({
+        ...cartItem,
+        ...masterProductList.find(({id}) => id == cartItem.id)
+      }))
+  
+      const cartTotalAmount = listWithLastestProductInfo
         .map((item) => {
           return item.price * item.quantity
         })
         .reduce((sum, amount) => sum + amount)
-      shoppingCartTotalAmount.innerText = cartTotalAmount
+      shoppingCartTotalAmount.innerText = `$${cartTotalAmount.toFixed(2)}`
     }
   },
   renderSelectedCategory: (categoryName) => {
