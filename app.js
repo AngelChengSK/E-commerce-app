@@ -29,7 +29,7 @@ const masterProductList = [
   },
   {
     id: 5,
-    name: 'round mirror - large',
+    name: 'mirror - large',
     category: 'mirror',
     price: 65.99,
     img: 'images/round-mirror-large.jpeg'
@@ -50,7 +50,7 @@ const masterProductList = [
   },
   {
     id: 8,
-    name: 'round mirror - small',
+    name: 'mirror - small',
     category: 'mirror',
     price: 45.99,
     img: 'images/round-mirror-small.jpg'
@@ -134,10 +134,29 @@ const masterProductList = [
   }
 ]
 
-// homepage elements
+// common elements
 const navBar = document.querySelector('[data-nav-bar]')
+const sidebarMenuBtn = document.querySelector('[data-sidebar-menu-btn]')
+const sidebarMenuPage = document.querySelector('[data-sidebar-menu-page]')
+const shoppingCartBtns = document.querySelectorAll('[data-shopping-cart-btn]')
+const shoppingCartPage = document.querySelector('[data-shopping-cart-page]')
+const shoppingCartItemsContainer = document.querySelector(
+  '[data-shopping-cart-items-container]'
+)
+const shoppingCartTotalAmount = document.querySelector(
+  '[data-total-cart-amount]'
+)
+
+// homepage elements
+const navSearchInputForm = document.querySelector(
+  '[data-nav-search-input-form]'
+)
+const navSearchInput = document.querySelector('[data-nav-search-input]')
 const newArrivalsContainer = document.querySelector(
   '[data-new-arrivals-container]'
+)
+const shoppingCartNumberIcon = document.querySelector(
+  '[data-shopping-cart-number-icon]'
 )
 
 // shop page elements
@@ -148,15 +167,7 @@ const categoryBtnsContainer = document.querySelector('[data-category-list]')
 const viewAllBtn = document.querySelector('[data-category="view all"]')
 const productsContainer = document.querySelector('[data-products-container]')
 
-const shoppingCartBtns = document.querySelectorAll('[data-shopping-cart-btn]')
-const shoppingCartPage = document.querySelector('[data-shopping-cart-page]')
-const shoppingCartItemsContainer = document.querySelector(
-  '[data-shopping-cart-items-container]'
-)
-const shoppingCartTotalAmount = document.querySelector(
-  '[data-total-cart-amount]'
-)
-
+// local storage key
 const LOCAL_STORAGE_SHOPPING_CART_LIST = 'mf-shopping-cart-list'
 
 let shoppingCartList =
@@ -186,7 +197,27 @@ const app = {
             e.target.closest('footer')
           ) {
             shoppingCartPage.classList.remove('show')
+            sidebarMenuPage.classList.remove('show')
+            return
           }
+          if (e.target.hasAttribute('data-sidebar-menu-btn')) {
+            shoppingCartPage.classList.remove('show')
+            return
+          }
+          if (e.target.hasAttribute('data-shopping-cart-btn')) {
+            sidebarMenuPage.classList.remove('show')
+            return
+          }
+        })
+        sidebarMenuBtn.addEventListener('click', () => {
+          app.toggleSidebarMenu()
+          navSearchInput.value = ''
+        })
+        navSearchInputForm.addEventListener('submit', (e) => {
+          e.preventDefault()
+          if (navSearchInput.value === null || navSearchInput.value === '')
+            return
+          window.location.href = `shop.html#search${navSearchInput.value}`
         })
         shoppingCartBtns.forEach((btn) => {
           btn.addEventListener('click', app.toggleShoppingCart)
@@ -213,7 +244,14 @@ const app = {
 
         if (window.location.hash) {
           if (window.location.hash === '#search') app.showSearchSection()
-          else {
+          else if (window.location.hash.indexOf('search') == 1) {
+            const searchPhase = window.location.hash
+              .slice(7)
+              .replace(/%20/g, ' ')
+            app.showSearchSection()
+            searchInput.value = searchPhase
+            app.showSearchResult(searchPhase)
+          } else {
             const selectedCategory = window.location.hash
               .slice(1)
               .replace(/%20/g, ' ')
@@ -229,10 +267,23 @@ const app = {
             e.target.closest('footer')
           ) {
             shoppingCartPage.classList.remove('show')
+            sidebarMenuPage.classList.remove('show')
+            return
+          }
+          if (e.target.hasAttribute('data-sidebar-menu-btn')) {
+            shoppingCartPage.classList.remove('show')
+            return
+          }
+          if (e.target.hasAttribute('data-shopping-cart-btn')) {
+            sidebarMenuPage.classList.remove('show')
+            return
           }
         })
+        sidebarMenuBtn.addEventListener('click', app.toggleSidebarMenu)
         searchBtn.addEventListener('click', app.showSearchSection)
-        searchInput.addEventListener('keyup', app.showSearchResult)
+        searchInput.addEventListener('keyup', (e) =>
+          app.showSearchResult(e.target.value)
+        )
         searchInputClear.addEventListener('click', () => {
           app.loadShopPage()
           searchInput.classList.remove('active')
@@ -341,8 +392,7 @@ const app = {
       selectedCategory.classList.remove('active')
     }
   },
-  showSearchResult: (e) => {
-    const searchPhase = e.target.value
+  showSearchResult: (searchPhase) => {
 
     if (searchPhase === null || searchPhase === '') {
       app.renderProductList(masterProductList)
@@ -371,6 +421,14 @@ const app = {
       if (selectedCategory) {
         selectedCategory.classList.remove('active')
       }
+    }
+  },
+  toggleSidebarMenu: () => {
+    sidebarMenuPage.classList.toggle('show')
+    const isNavBarWhiteBackground =
+      navBar.classList.contains('white-background')
+    if (!isNavBarWhiteBackground) {
+      navBar.classList.add('white-background')
     }
   },
   toggleShoppingCart: () => {
@@ -439,7 +497,6 @@ const app = {
     shoppingCartList = shoppingCartList.filter(
       (item) => item.id !== selectedItemId
     )
-    console.log(shoppingCartList)
     app.save()
     app.renderShoppingCart()
     app.updateQuantityInCartIcon()
@@ -453,7 +510,7 @@ const app = {
     //use cartItem's id to retrieve latest product info from masterProductList
     const listWithLastestProductInfo = shoppingCartList.map((cartItem) => ({
       ...cartItem,
-      ...masterProductList.find(({id}) => id == cartItem.id)
+      ...masterProductList.find(({ id }) => id == cartItem.id)
     }))
 
     const html = listWithLastestProductInfo.map((cartItem) => {
@@ -478,6 +535,7 @@ const app = {
   updateCartItemNumber: () => {
     if (shoppingCartList.length === 0) {
       shoppingCartBtns[0].innerText = `cart(0)`
+      shoppingCartNumberIcon.innerText = 0
     } else {
       const totalCartItem = shoppingCartList
         .map((item) => {
@@ -485,6 +543,7 @@ const app = {
         })
         .reduce((sum, quantity) => sum + quantity)
       shoppingCartBtns[0].innerText = `cart(${totalCartItem})`
+      shoppingCartNumberIcon.innerText = totalCartItem
     }
   },
   updateTotalAmount: () => {
@@ -493,9 +552,9 @@ const app = {
     } else {
       const listWithLastestProductInfo = shoppingCartList.map((cartItem) => ({
         ...cartItem,
-        ...masterProductList.find(({id}) => id == cartItem.id)
+        ...masterProductList.find(({ id }) => id == cartItem.id)
       }))
-  
+
       const cartTotalAmount = listWithLastestProductInfo
         .map((item) => {
           return item.price * item.quantity

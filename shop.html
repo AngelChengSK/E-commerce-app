@@ -14,10 +14,8 @@
   <body id="shop-page">
     <div class="container">
       <nav class="nav-bar white-background shop-page" data-nav-bar>
-        <div class="nav nav-horizontal">
-          <!-- <button class="nav-menu-icon"> -->
-            <i class="fas fa-sm fa-bars"></i>
-          <!-- </button> -->
+        <div class="nav-horizontal">
+          <i class="fas fa-bars" data-sidebar-menu-btn></i>
           <ul class="nav-items left">
             <li><a href="shop.html">shop</a></li>
             <li><a href="#">about</a></li>
@@ -28,35 +26,42 @@
           </div>
           <ul class="nav-items right">
             <li data-search-btn>search</li>
-            <li><a href="#"></a>sign in</li>
-            <li class="shopping-cart-btn text" data-shopping-cart-btn>cart(0)</li>
-          </ul>
-          <!-- <button class="shopping-cart-btn icon" data-shopping-cart-btn> -->
-            <i class="fa-solid fa-cart-shopping shopping-cart-btn icon" data-shopping-cart-btn></i>
-          <!-- </button> -->
-        </div>
-        <div class="nav nav-vertical">
-          <button class="nav-close-btn">
-            <i class="fa-solid fa-xl fa-xmark"></i>
-          </button>
-          <ul>
-            <!-- <form> -->
-              <input class="search-input" type="text" placeholder="search" />
-            <!-- </form> -->
-            <li class="nav-shop">
-              <a href="shop.html"></a>shop<i
-                class="fa-solid fa-sm fa-angle-right"
-              ></i>
+            <li><a href="#">sign in</a></li>
+            <li class="shopping-cart-btn text" data-shopping-cart-btn>
+              cart(0)
             </li>
-            <li><a href="#"></a>sign in</li>
-            <li><a href="about.html"></a>about</li>
-            <li><a href="contact-us.html"></a>contact us</li>
           </ul>
+          <i class="fa-solid fa-cart-shopping" data-shopping-cart-btn>
+            <div class="cart-item-number" data-shopping-cart-number-icon>1</div>
+          </i>
         </div>
       </nav>
+      <nav class="nav-vertical" data-sidebar-menu-page>
+        <ul>
+          <!-- <form data-nav-search-input-form>
+            <input
+              class="nav search-products"
+              type="text"
+              placeholder="search products"
+              data-nav-search-input
+            />
+          </form> -->
+          <!-- <li class="nav-shop">
+            <a href="shop.html">shop</a>
+          </li> -->
+          <li>
+            <a href="index.html">home</a>
+          </li>
+          <li><a href="#">account</a></li>
+          <li><a href="#">about</a></li>
+          <li><a href="#">contact us</a></li>
+        </ul>
+      </nav>
       <div class="shopping-cart" data-shopping-cart-page>
-        <div class="shopping-cart-items-container" data-shopping-cart-items-container>
-        </div>
+        <div
+          class="shopping-cart-items-container"
+          data-shopping-cart-items-container
+        ></div>
         <div class="shopping-cart-total-container">
           <div class="total-title">total</div>
           <div class="total-amount" data-total-cart-amount>$0.00</div>
@@ -64,30 +69,26 @@
         <div class="checkout-btn">checkout</div>
       </div>
       <main class="shop-page" data-shop-page>
-        
         <aside class="sidebar">
-          <!-- <form data-search-form> -->
-            <input
-              class="search-products"
-              type="text"
-              placeholder="search products"
-              maxlength="10"
-              data-search-products
-            />
-            <i class="fa-solid fa-xmark" data-clear-search></i>
-          <!-- </form> -->
+          <input
+            class="search-products"
+            type="text"
+            placeholder="search products"
+            maxlength="10"
+            data-search-products
+          />
+          <i class="fa-solid fa-xmark" data-clear-search></i>
           <ul class="category-list" data-category-list>
-            <li data-category = "view all">view all</li>
-            <li data-category = "new arrivals">new arrivals</li>
-            <li data-category = "sofas">sofas</li>
-            <li data-category = "chairs">chairs</li>
-            <li data-category = "lighting">lighting</li>
-            <li data-category = "mirror">mirror</li>
-            <li data-category = "home decor">home decor</li>
+            <li data-category="view all">view all</li>
+            <li data-category="new arrivals">new arrivals</li>
+            <li data-category="sofas">sofas</li>
+            <li data-category="chairs">chairs</li>
+            <li data-category="lighting">lighting</li>
+            <li data-category="mirror">mirror</li>
+            <li data-category="home decor">home decor</li>
           </ul>
         </aside>
-        <div class="products-container" data-products-container>
-        </div>
+        <div class="products-container" data-products-container></div>
       </main>
       <footer>
         <div class="footer-container">
@@ -95,7 +96,7 @@
             <ul class="footer-list-container">
               <div class="navigate footer-title">navigate</div>
               <li><a href="shop.html">shop</a></li>
-              <li><a href="#">account</a></li>
+              <li><a href="#">sign in</a></li>
               <li><a href="#">about</a></li>
               <li><a href="#">contact us</a></li>
             </ul>
@@ -106,12 +107,17 @@
               <li><a href="#">terms & privacy</a></li>
               <li><a href="#">faq</a></li>
             </ul>
-            <ul class="footer-list-container">
+            <ul class="footer-list-container social-media">
               <div class="social footer-title">social</div>
               <li><a href="#">facebook</a></li>
               <li><a href="#">instagram</a></li>
               <li><a href="#">twitter</a></li>
             </ul>
+          </div>
+          <div class="social-media-icons">
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-twitter"></i>
           </div>
           <div class="copyright">Angel Cheng ©️ Jul 2022</div>
         </div>
