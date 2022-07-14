@@ -17,6 +17,10 @@ button {
   all: unset;
 }
 
+input{
+  border-radius: 0;
+}
+
 body,
 *::placeholder,
 input {
@@ -623,7 +627,7 @@ footer {
   max-width: 1000px;
   width: 95%;
   margin: 0 auto;
-  padding: 160px 0;
+  padding: 190px 0;
   position: relative;
   display: flex;
   justify-content: center;
@@ -919,6 +923,7 @@ main.shop-page {
   .nav-horizontal {
     padding: 25px 0 15px;
     width: 90%;
+    align-items: center;
   }
 
   .nav-items.left,
@@ -938,6 +943,10 @@ main.shop-page {
   }
 
   /* homepage */
+
+  .new-collection-section{
+    max-height: 800px;
+  }
 
   .new-collection-text-container {
     position: absolute;
@@ -1257,11 +1266,7 @@ main.shop-page {
   }
 
   .our-story-section > img {
-    order: 2;
-  }
-
-  .our-story-text-container {
-    order: 1;
+    display: none;
   }
 
   .our-story {
@@ -1284,7 +1289,10 @@ main.shop-page {
 
 @media all and (max-width: 435px) {
   /* common */
-
+  .store-name{
+    font-size: 22px;
+  }
+  
   .shopping-cart {
     padding: 40px 15px;
   }
