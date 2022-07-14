@@ -627,15 +627,15 @@ footer {
   max-width: 1000px;
   width: 95%;
   margin: 0 auto;
-  padding: 190px 0;
+  padding: 210px 0;
   position: relative;
   display: flex;
   justify-content: center;
 }
 
 .our-story-section > img {
-  width: 350px;
-  height: 250px;
+  width: 280px;
+  height: 200px;
   object-fit: cover;
   flex-shrink: 0;
   object-position: 50% 52%;
@@ -967,15 +967,22 @@ main.shop-page {
 
   .our-story-section {
     width: 90%;
+    padding: 170px 0;
   }
 
   .our-story-section > img {
-    width: 280px;
-    height: 180px;
+    display: none;
+    
   }
 
   .our-story-text-container {
     font-size: 19px;
+    align-items: center;
+    padding-left: 0;
+  }
+
+  .quote{
+    text-align: center;
   }
 
   .all-collections-section {
@@ -1084,21 +1091,6 @@ main.shop-page {
     justify-content: space-around;
   }
 
-  .our-story-section {
-    width: fit-content;
-    flex-direction: column;
-  }
-
-  .our-story-text-container {
-    padding-left: 0;
-    padding-top: 30px;
-    align-items: center;
-  }
-
-  .quote {
-    text-align: center;
-  }
-
   /* shop page */
 
   main.shop-page {
@@ -1191,15 +1183,6 @@ main.shop-page {
     bottom: 130px;
   }
 
-  .our-story-section {
-    padding: 180px 0 150px;
-  }
-
-  .quote,
-  .our-story {
-    font-size: 18px;
-  }
-
   .all-collections-container {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr 170px 170px 250px;
@@ -1263,17 +1246,6 @@ main.shop-page {
   .new-arrivals-container {
     grid-template-columns: minmax(200px, 250px);
     height: 650px;
-  }
-
-  .our-story-section > img {
-    display: none;
-  }
-
-  .our-story {
-    position: absolute;
-    top: 150px;
-    opacity: 1;
-    font-size: 22px;
   }
 
   .collection-name.mirror {
