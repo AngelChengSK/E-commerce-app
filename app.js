@@ -93,7 +93,7 @@ const masterProductList = [
   {
     id: 14,
     name: 'white vase',
-    category: 'home decor',
+    category: 'home decor, new arrivals',
     price: 29,
     img: 'images/white-vase.jpeg'
   },
@@ -128,7 +128,7 @@ const masterProductList = [
   {
     id: 19,
     name: 'pillow',
-    category: 'home decor',
+    category: 'home decor, new arrivals',
     price: 15.99,
     img: 'images/pillow.jpeg'
   }
