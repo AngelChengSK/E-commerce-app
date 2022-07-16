@@ -649,6 +649,7 @@ footer {
   align-items: flex-start;
 }
 .quote {
+  line-height: 1.5;
   padding-bottom: 30px;
 }
 
@@ -987,7 +988,6 @@ main.shop-page {
 
   .quote {
     text-align: center;
-    line-height: 1.5;
   }
 
   .all-collections-section {
@@ -1171,14 +1171,14 @@ main.shop-page {
   }
 
   .intro-section {
-    width: 300px;
+    width: 250px;
     font-size: 18px;
     padding: 120px 0 150px;
   }
 
   .intro-section::after {
     width: 100px;
-    left: 100px;
+    left: 75px;
     bottom: 130px;
   }
 
