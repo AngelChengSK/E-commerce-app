@@ -618,11 +618,6 @@ footer {
   opacity: 1;
 }
 
-.product-image:hover > .add-product-btn-container > .fa-cart-plus,
-.product-image:hover > .add-product-btn-container > .quantity-in-cart {
-  box-shadow: none;
-}
-
 .product-info {
   display: flex;
   justify-content: space-between;
