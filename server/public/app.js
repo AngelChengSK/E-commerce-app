@@ -465,7 +465,11 @@ const app = {
       .then(({ url }) => {
         //redirect the user to the returned url
         window.location = url
+        // console.log(url)
       })
+      // .then(res => {
+      //   console.log(res)
+      // })
       .catch((e) => {
         console.error(e.error)
       })
