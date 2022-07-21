@@ -1,3 +1,5 @@
+import { masterProductList } from '../client/data.js'
+
 // setup dotenv, call the config() method to load our environment variables
 require('dotenv').config()
 
@@ -10,23 +12,29 @@ const cors = require('cors')
 //the app will send information over json
 //tell the app to use express.json() so to read all the json data that sent up to our server
 app.use(express.json())
-//specify where will we accept the request from (port 5500 is the live server)
-app.use(cors({
-  origin: 'https://angelchengsk.github.io',
-}))
+
+//if client and server running on different place,
+//specify where will the app accept request from
+app.use(
+  cors({
+    origin: 'https://angelchengsk.github.io'
+  })
+)
 
 //if client and server running on the same place,
 //declare the folder of all static files, tell the app that all of the client - side code is living in the folder called public
 // app.use(express.static('public'))
 
 //setup stripe, require stripe library, pass in our stripe key
-//STRIPE_PRIVATE_KEY, can call it whatever you like, its the env variable which dotenv will create for us
+//STRIPE_PRIVATE_KEY, can call it whatever you like, its the env variable which .env will create for us
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
 
-const storeItems = new Map([
-  [1, { priceInCents: 10000, name: 'Learn React Today' }],
-  [2, { priceInCents: 10000, name: 'Learn CSS Today' }]
-])
+const storeItems = new Map(
+  // Map object holds key-value pairs
+  masterProductList.map((item) => {
+    return [item.id, item]
+  })
+)
 
 app.post('/create-checkout-session', async (req, res) => {
   try {
@@ -41,7 +49,8 @@ app.post('/create-checkout-session', async (req, res) => {
             product_data: {
               name: storeItem.name
             },
-            unit_amount: storeItem.priceInCents
+            unit_amount: storeItem.price * 100
+            // stripe requires the price to be in cent
           },
           quantity: item.quantity
         }
