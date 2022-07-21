@@ -9,13 +9,13 @@ app.use(express.json())
 app.use(
   cors({
     // specify where will the server receive request from
-    // origin: 'https://angelchengsk.github.io'
-    origin: 'http://localhost:5500'
+    origin: 'https://angelchengsk.github.io'
+    // origin: 'http://localhost:5500'
   })
 )
 
-import Stripe from 'stripe';
-const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
+import Stripe from 'stripe'
+const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY)
 
 const storeItems = new Map(
   // Map object holds key-value pairs
@@ -23,6 +23,15 @@ const storeItems = new Map(
     return [item.id, item]
   })
 )
+
+app.post('/get-master-product-list', async (req, res) => {
+  try {
+    res.json(masterProductList)
+  } catch (e) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
 app.post('/create-checkout-session', async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({
