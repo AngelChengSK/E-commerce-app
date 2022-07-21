@@ -146,6 +146,7 @@ const shoppingCartItemsContainer = document.querySelector(
 const shoppingCartTotalAmount = document.querySelector(
   '[data-total-cart-amount]'
 )
+const checkoutBtn = document.querySelector('[data-checkout-btn]')
 
 // homepage elements
 const navSearchInputForm = document.querySelector(
@@ -230,6 +231,7 @@ const app = {
             app.removeCartItem(e)
           }
         })
+        checkoutBtn.addEventListener('click', app.checkout)
         newArrivalsContainer.addEventListener('click', (e) => {
           if (e.target.hasAttribute('data-add-to-cart-btn')) {
             app.addItemToCart(
@@ -300,6 +302,7 @@ const app = {
             app.removeCartItem(e)
           }
         })
+        checkoutBtn.addEventListener('click', app.checkout)
         productsContainer.addEventListener('click', (e) => {
           if (e.target.hasAttribute('data-add-to-cart-btn')) {
             app.addItemToCart(e.target.parentElement.parentElement.dataset.id)
@@ -393,7 +396,6 @@ const app = {
     }
   },
   showSearchResult: (searchPhase) => {
-
     if (searchPhase === null || searchPhase === '') {
       app.renderProductList(masterProductList)
       searchInput.classList.remove('active')
@@ -507,6 +509,17 @@ const app = {
     app.updateTotalAmount()
   },
   renderCartItem: () => {
+    if (shoppingCartList.length === 0) {
+      shoppingCartItemsContainer.innerHTML = `
+      <div class="cart-empty-message-title">your cart is empty</div>
+      <div class="cart-empty-message-content">
+      looks like you have not added anything to your cart. <br>
+      go ahead & explore.
+      </div>
+      `
+      return
+    }
+
     //use cartItem's id to retrieve latest product info from masterProductList
     const listWithLastestProductInfo = shoppingCartList.map((cartItem) => ({
       ...cartItem,
@@ -562,6 +575,37 @@ const app = {
         .reduce((sum, amount) => sum + amount)
       shoppingCartTotalAmount.innerText = `$${cartTotalAmount.toFixed(2)}`
     }
+  },
+  checkout: () => {
+    //make a POST request to our server
+    //need to fetch with full url, if client and server are not running on the same place
+    fetch('http://localhost:3000/create-checkout-session', {
+      method: 'POST',
+      headers: {
+        // declare that we are sending json information
+        'Content-Type': 'application/json'
+      },
+      //actually sending the product information in json
+      body: JSON.stringify({
+        items: [
+          { id: 1, quantity: 3 },
+          { id: 2, quantity: 1 }
+        ]
+      })
+    })
+      .then((res) => {
+        // if it is good response, successful, return the response (which is a url) in json
+        if (res.ok) return res.json()
+        // if it is a failure, send the response to promise.reject and make sure it actually fails cause fetch doesn't fail on its own
+        return res.json().then((json) => Promise.reject(json))
+      })
+      .then(({ url }) => {
+        //redirect the user to the returned url
+        window.location = url
+      })
+      .catch((e) => {
+        console.error(e.error)
+      })
   },
   renderSelectedCategory: (categoryName) => {
     if (categoryName === 'view all') {

@@ -1,2 +1,4 @@
-
 *.docx
+.env
+node_modules
+misc
