@@ -12,7 +12,7 @@ const cors = require('cors')
 app.use(express.json())
 //specify where will we accept the request from (port 5500 is the live server)
 app.use(cors({
-  origin: 'https://angelchengsk.github.io/E-commerce-app/',
+  origin: 'https://angelchengsk.github.io',
 }))
 
 //if client and server running on the same place,
