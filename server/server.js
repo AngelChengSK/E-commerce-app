@@ -1,18 +1,18 @@
-import { masterProductList } from './data.js'
+import { masterProductList } from './public/data.js'
 
 import {} from 'dotenv/config'
 
 import express from 'express'
 const app = express()
-import cors from 'cors'
+// import cors from 'cors'
 app.use(express.json())
-app.use(
-  cors({
-    // specify where will the server receive request from
-    origin: 'https://angelchengsk.github.io'
-    // origin: 'http://localhost:5500'
-  })
-)
+// app.use(
+//   cors({
+//     // specify where will the server receive request from
+//     origin: 'https://angelchengsk.github.io'
+//   })
+// )
+app.use(express.static('public'))
 
 import Stripe from 'stripe'
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY)
@@ -23,14 +23,6 @@ const storeItems = new Map(
     return [item.id, item]
   })
 )
-
-app.post('/get-master-product-list', async (req, res) => {
-  try {
-    res.json(masterProductList)
-  } catch (e) {
-    res.status(500).json({ error: e.message })
-  }
-})
 
 app.post('/create-checkout-session', async (req, res) => {
   try {
@@ -51,8 +43,8 @@ app.post('/create-checkout-session', async (req, res) => {
           quantity: item.quantity
         }
       }),
-      success_url: `${process.env.CLIENT_URL}/index.html`,
-      cancel_url: `${process.env.CLIENT_URL}/index.html`
+      success_url: `http://localhost:3000/index.html`,
+      cancel_url: `http://localhost:3000/index.html`
     })
     res.json({ url: session.url })
   } catch (e) {
